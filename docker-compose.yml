@@ -1,0 +1,26 @@
+services:
+  mongodb_hw:
+    image: mongo:latest
+    restart: always
+    container_name: mongodb_hw
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      - mongo-config:/etc/mongo
+      - ./init.js:/docker-entrypoint-initdb.d/init.js:ro
+    env_file:
+      - .env
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb_hw
+
+
+volumes:
+  mongo-data:
+    driver: local
+  mongo-config:
+    driver: local
