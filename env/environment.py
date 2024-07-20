@@ -18,5 +18,3 @@ HTTP_PORT = int(os.getenv('HTTP_PORT'))
 
 SOCKET_HOST = os.getenv('SOCKET_HOST')
 SOCKET_PORT = int(os.getenv('SOCKET_PORT'))
-
-print()
