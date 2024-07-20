@@ -33,10 +33,7 @@ class HttpServer(BaseHTTPRequestHandler):
 
             log.info(f'HTTP Server received message: {data}')
 
-            data_parse = urllib.parse.unquote_plus(data.decode())
-            data_dict = {key: value for key, value in [el.split('=') for el in data_parse.split('&')]}
-
-            self.send_to_socket(data_dict)
+            self.send_to_socket(data)
 
             self.send_file('message-sent.html', 'text/html')
 
@@ -58,8 +55,7 @@ class HttpServer(BaseHTTPRequestHandler):
             while True:
                 try:
                     s.connect((SOCKET_HOST, SOCKET_PORT))
-                    encoded_data = json.dumps(data).encode("utf-8")
-                    s.sendall(encoded_data)
+                    s.sendall(data)
                     break
                 except ConnectionRefusedError as e:
                     log.error(f'HTTP Server failed to connect to Socket Server: {e}')

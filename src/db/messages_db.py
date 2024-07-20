@@ -15,9 +15,8 @@ class MessagesDb:
         self.client = MongoClient(DB_URI, server_api=ServerApi('1'))
         self.db = self.client.book
 
-    def insert_message(self, data):
-        message_data = json.loads(data)
-        message_data['date'] = datetime.now()
+    def insert_message(self, data: dict):
+        data['date'] = str(datetime.now())
 
-        result = self.db.messages.insert_one(message_data)
-        log.info(f'Inserted data to db\n{message_data}\n{result}')
+        result = self.db.messages.insert_one(data)
+        log.info(f'Inserted data to db\n{data}\n{result}')

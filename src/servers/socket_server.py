@@ -1,7 +1,8 @@
 import logging
 import socket
+import urllib
 from concurrent import futures as cf
-
+import urllib.parse
 from env.environment import SOCKET_HOST, SOCKET_PORT
 from src.db.messages_db import MessagesDb
 
@@ -33,9 +34,10 @@ class SocketServer:
             received = sock.recv(1024)
             if not received:
                 break
-            data = received.decode()
-            log.info(f'Socket Server received data: {data}')
-            self.db.insert_message(data)
+            data_parse = urllib.parse.unquote_plus(received.decode())
+            data_dict = {key: value for key, value in [el.split('=') for el in data_parse.split('&')]}
+            log.info(f'Socket Server received data: {data_dict}')
+            self.db.insert_message(data_dict)
 
         sock.close()
         log.info('Socket Server closed connection.')
