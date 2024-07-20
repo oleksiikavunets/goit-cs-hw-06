@@ -1,5 +1,5 @@
 import logging
-from concurrent.futures.thread import ThreadPoolExecutor
+from concurrent.futures.process import ProcessPoolExecutor
 from http.server import HTTPServer
 
 from env.environment import HTTP_HOST, HTTP_PORT
@@ -25,7 +25,7 @@ def run_socket_server():
 
 
 def main():
-    with ThreadPoolExecutor(max_workers=2) as pool:
+    with ProcessPoolExecutor(max_workers=2) as pool:
         pool.submit(run_socket_server)
         pool.submit(run_http_server)
 
