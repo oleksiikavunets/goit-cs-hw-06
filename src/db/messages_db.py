@@ -12,7 +12,7 @@ log = logging.getLogger()
 class MessagesDb:
     def __init__(self):
         self.client = MongoClient(DB_URI, server_api=ServerApi('1'))
-        self.db = self.client.test_db
+        self.db = self.client.messages_db
         self.db.command("ping")
 
     def insert_message(self, data: dict):
